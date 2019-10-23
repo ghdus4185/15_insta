@@ -1,7 +1,7 @@
+{% load bootstrap4 %}
 {% load make_link %}
 <div class="card col-4">
-  
-  
+
   <button type="button" data-toggle="modal" data-target="#exampleModal_{{post.id}}">
       <img src="{{post.image.url}}" class="card-img-top" alt="...">
   </button>
@@ -16,10 +16,12 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-    
         <div class="modal-body">
           <div class="container-fluid">
-            <img src="{{post.image.url}}">
+            <div class="col-9">
+              <img src="{{post.image.url}}">
+            </div>
+
           </div>
         </div>
         
