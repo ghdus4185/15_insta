@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block body %}
+  <h1>{{user_info.username}}님의 유저 페이지입니다.</h1>
+
+  {% if user.is_authenticated %}
+    <a href="{% url 'account:follow' user_info.id %}">팔로우</a>
+  {% endif %}
+{% endblock%}
