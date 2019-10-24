@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
+{% load bootstrap_pagination %}
 {% block body %}
   <div class="row">
   {% for post in posts %}
     {% include 'posts/_post.html' %}
   {% endfor %}
   </div>
+  {% bootstrap_paginate posts %}
 {% endblock %}

@@ -1,8 +1,13 @@
 {% extends 'base.html' %}
+{% load socialaccount %}
+{% load bootstrap4 %}
 {% block body %}
   <form action="" method="post">
     {% csrf_token %}
-    {{form}}
-    <input type="submit">
+    {% bootstrap_form form %}
+    <input type="submit" value="로그인">
   </form>
+    
+  <a href="{% provider_login_url 'kakao' %}"><img src="http://imgnews.naver.net/image/5036/2011/06/22/k101793p1n1.jpg" style="height:50px"></a>
+  </div>
 {% endblock %}

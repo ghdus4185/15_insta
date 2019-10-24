@@ -2,13 +2,19 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import PostForm, CommentForm
 from .models import HashTag, Post
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 # Create your views here.
 
 
 def index(request):
     posts = Post.objects.all()
+    paginator = Paginator(posts, 5)
+
+    page = request.GET.get('page')
+    posts = paginator.get_page(page)
+
     context = {
-        'posts': posts
+        'posts': posts,
     }
     return render(request, 'posts/index.html', context)
 
@@ -29,6 +35,28 @@ def create(request):
             return redirect("posts:index")
     else:
         form = PostForm()
+    context = {
+        'form': form
+    }
+    return render(request, 'posts/form.html', context)
+
+
+def update(request, id):
+    post = get_object_or_404(Post, id=id)
+    if request.method == "POST":
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            post = form.save()
+            post.hashtags.clear()
+            for word in post.content.split():
+                if word.startswith('#'):
+                    # 해쉬태그 추가
+                    hashtag = HashTag.objects.get_or_create(
+                        content=word)[0]  # (object, True or False)
+                    post.hashtags.add(hashtag)
+            return redirect("posts:index")
+    else:
+        form = PostForm(instance=post)
     context = {
         'form': form
     }
