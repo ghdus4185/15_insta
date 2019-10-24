@@ -8,13 +8,8 @@ from django.core.paginator import Paginator
 
 def index(request):
     posts = Post.objects.all()
-    paginator = Paginator(posts, 5)
-
-    page = request.GET.get('page')
-    posts = paginator.get_page(page)
-
     context = {
-        'posts': posts,
+        'posts': posts
     }
     return render(request, 'posts/index.html', context)
 
