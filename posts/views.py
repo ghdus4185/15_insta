@@ -8,12 +8,17 @@ from django.core.paginator import Paginator
 
 def index(request):
     posts = Post.objects.all()
+    paginator = Paginator(posts, 5)
+
+    page = request.GET.get('page')
+    posts = paginator.get_page(page)
     context = {
         'posts': posts
     }
     return render(request, 'posts/index.html', context)
 
 
+@login_required
 def create(request):
     if request.method == "POST":
         form = PostForm(request.POST, request.FILES)
@@ -60,8 +65,10 @@ def update(request, id):
 
 def hashtags(request, id):
     hashtag = get_object_or_404(HashTag, id=id)
-
-    posts = hashtag.taged_post.all()
+    posts = hashtag.taged_posts.all()
+    paginator = Paginator(posts, 2)
+    page = request.GET.get('page')
+    posts = paginator.get_page(page)
     context = {
         'posts': posts
     }
